@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f5f7fb">
+<title>アルバイト給与計算</title>
+<style>
+:root{color-scheme:light;--bg:#f5f7fb;--card:#fff;--ink:#172033;--muted:#718096;--line:#e4e9f1;--accent:#315ee8;--soft:#edf2ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;padding:26px 15px 42px}
+main{max-width:600px;margin:auto}header{margin:0 0 22px}.eyebrow{font-size:12px;font-weight:750;letter-spacing:.12em;color:var(--accent)}h1{font-size:30px;margin:7px 0}.sub,.hint,footer{color:var(--muted);font-size:13px;line-height:1.7}
+.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:19px;margin:13px 0;box-shadow:0 10px 28px #1e32500d}h2{font-size:16px;margin:0 0 15px}
+.choices,.fields,.rates{display:grid;grid-template-columns:1fr 1fr;gap:10px}.choice{position:relative}.choice input{position:absolute;opacity:0}.choice span{display:block;text-align:center;padding:14px;border:1.5px solid var(--line);border-radius:11px;font-weight:700}.choice input:checked+span{border-color:var(--accent);background:var(--soft);color:var(--accent)}
+label.field{display:block;color:var(--muted);font-size:13px;font-weight:650}.field input{display:block;width:100%;margin-top:7px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fbfcfe;color:var(--ink);font:inherit;font-size:18px;min-width:0}
+.hint{margin:11px 0 0;font-size:12px}.rate{background:#f8faff;border:1px solid var(--line);border-radius:10px;padding:12px}.rate small{display:block;color:var(--muted);font-size:12px}.rate strong{font-size:19px}
+button{font:inherit;cursor:pointer}.calc{width:100%;border:0;border-radius:12px;background:var(--accent);color:white;font-weight:750;padding:16px;font-size:16px}.error{color:#c23b43;min-height:20px;font-size:13px;margin:8px 2px}
+.result{display:none}.result.show{display:block}.totalbox{text-align:center;padding:8px 0 17px}.totalbox small{color:var(--muted)}.total{font-size:46px;font-weight:850;color:var(--accent);margin:4px 0}.summary{color:var(--muted);font-size:13px}.line{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--line);font-size:14px}.line span{color:var(--muted)}.copy{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;margin-top:13px;font-weight:700}
+footer{font-size:11px;padding:10px 3px}@media(max-width:390px){h1{font-size:26px}.card{padding:15px}.field input{font-size:16px}}
+</style>
+</head>
+<body><main>
+<header><div class="eyebrow">PAYROLL CALCULATOR</div><h1>アルバイト給与計算</h1><p class="sub">勤務時間と休憩を入力するだけ。バイト代をすぐに計算できます。</p></header>
+<section class="card"><h2>01　勤務区分</h2><div class="choices">
+<label class="choice"><input type="radio" name="daytype" id="weekday" value="weekday" checked><span>平日</span></label>
+<label class="choice"><input type="radio" name="daytype" id="holiday" value="holiday"><span>土日祝</span></label>
+</div></section>
+<section class="card"><h2>02　勤務時間</h2><div class="fields">
+<label class="field">勤務開始<input id="start" type="time" value="17:00"></label>
+<label class="field">勤務終了<input id="end" type="time" value="22:00"></label>
+</div><p class="hint">終了時刻が開始時刻より早い場合は、翌日の終了として計算します。</p></section>
+<section class="card"><h2>03　休憩時間</h2><div class="fields">
+<label class="field">休憩（時間）<input id="breakH" type="number" min="0" max="24" step="1" value="0" inputmode="numeric"></label>
+<label class="field">休憩（分）<input id="breakM" type="number" min="0" max="59" step="1" value="0" inputmode="numeric"></label>
+</div><p class="hint">例：1時間30分なら「1」と「30」。休憩は通常時間帯（5:00〜22:00）から先に差し引きます。</p></section>
+<section class="card"><h2>04　時給設定</h2><div class="rates">
+<div class="rate"><small>平日・通常</small><strong>1,200円</strong></div>
+<div class="rate"><small>土日祝・通常</small><strong>1,250円</strong></div>
+<div class="rate"><small>平日・深夜</small><strong>1,500円</strong></div>
+<div class="rate"><small>土日祝・深夜</small><strong>1,500円</strong></div>
+</div><p class="hint">深夜時間帯：22:00〜翌5:00</p></section>
+<button class="calc" id="calculate" type="button">給与を計算する</button><div class="error" id="error" role="alert"></div>
+<section class="card result" id="result" aria-live="polite"><h2>計算結果</h2>
+<div class="totalbox"><small>今回の予想給与</small><div class="total" id="total">0円</div><div class="summary" id="duration"></div></div>
+<div class="line"><span>通常時間（休憩控除後）</span><strong id="normalTime">—</strong></div>
+<div class="line"><span>深夜時間</span><strong id="nightTime">—</strong></div>
+<div class="line"><span>休憩時間</span><strong id="breakTime">—</strong></div>
+<div id="details"></div><div class="line"><strong>合計給与</strong><strong id="total2">—</strong></div>
+<button class="copy" id="copy" type="button">計算結果をコピー</button></section>
+<footer>※ 概算です。税金・社会保険料・交通費・その他手当は含みません。休憩は通常時間帯から先に差し引きます。</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const yen=n=>Math.round(n).toLocaleString('ja-JP')+'円';
+const hm=m=>Math.floor(m/60)+'時間'+(m%60)+'分';
+function calculate(){
+ const err=$('error');err.textContent='';$('result').classList.remove('show');
+ const s=$('start').value,e=$('end').value;
+ if(!s||!e){err.textContent='勤務開始・終了時刻を入力してください。';return;}
+ const toMin=v=>{const [h,m]=v.split(':').map(Number);return h*60+m;};
+ let a=toMin(s),b=toMin(e);if(b<=a)b+=1440;
+ const worked=b-a;
+ if(worked>1440){err.textContent='勤務時間は24時間以内で入力してください。';return;}
+ const bh=Number($('breakH').value),bm=Number($('breakM').value);
+ if(!Number.isInteger(bh)||!Number.isInteger(bm)||bh<0||bh>24||bm<0||bm>59){err.textContent='休憩時間を正しく入力してください。';return;}
+ const rest=bh*60+bm;
+ if(rest>=worked&&rest>0){err.textContent='休憩時間が勤務時間以上になっています。';return;}
+ let normal=0,night=0;
+ for(let t=a;t<b;t++){const h=Math.floor((t%1440)/60);if(h>=22||h<5)night++;else normal++;}
+ if(rest>normal){err.textContent='休憩時間が通常時間帯の勤務時間を超えています。';return;}
+ normal-=rest;
+ const holiday=$('holiday').checked;
+ const rate=holiday?1250:1200;
+ const normalPay=normal*rate/60,nightPay=night*1500/60,totalPay=normalPay+nightPay;
+ $('total').textContent=yen(totalPay);$('total2').textContent=yen(totalPay);
+ $('duration').textContent='実働 '+hm(worked-rest);
+ $('normalTime').textContent=hm(normal);$('nightTime').textContent=hm(night);$('breakTime').textContent=hm(rest);
+ $('details').innerHTML='<div class="line"><span>通常 '+rate.toLocaleString()+'円 × '+hm(normal)+'</span><strong>'+yen(normalPay)+'</strong></div><div class="line"><span>深夜 1,500円 × '+hm(night)+'</span><strong>'+yen(nightPay)+'</strong></div>';
+ $('result').classList.add('show');
+}
+$('calculate').addEventListener('click',calculate);
+$('copy').addEventListener('click',async()=>{
+ const value='アルバイト給与計算\n区分：'+($('holiday').checked?'土日祝':'平日')+'\n勤務：'+$('start').value+'〜'+$('end').value+'\n実働：'+$('duration').textContent+'\n休憩：'+$('breakTime').textContent+'\n通常時間：'+$('normalTime').textContent+'\n深夜時間：'+$('nightTime').textContent+'\n合計：'+$('total').textContent;
+ try{await navigator.clipboard.writeText(value);$('copy').textContent='コピーしました！';}catch(e){$('copy').textContent='コピーできませんでした';}
+});
+</script></body></html>
