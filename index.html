@@ -206,9 +206,9 @@ function renderSelectedRecords(){
 $('saveRecord').addEventListener('click',()=>{
  if(!lastCalculation){$('saveMessage').textContent='先に給与を計算してください。';return;}
  const date=$('recordDate').value;if(!date){$('saveMessage').textContent='記録する日付を選んでください。';return;}
- if(!records[date])records[date]=[];
- records[date].push({...lastCalculation,savedAt:new Date().toISOString()});saveRecords();
- $('saveMessage').textContent=formatDate(date)+'に'+yen(lastCalculation.amount)+'を保存しました！';
+ const hadRecord=dayRecords(date).length>0;
+ records[date]=[{...lastCalculation,savedAt:new Date().toISOString()}];saveRecords();
+ $('saveMessage').textContent=formatDate(date)+'の記録を'+(hadRecord?'新しい内容に上書きしました！':'保存しました！');
  selectedCalendarDate=date;calendarCursor=new Date(date+'T12:00:00');renderCalendar();
 });
 $('prevMonth').addEventListener('click',()=>{calendarCursor.setMonth(calendarCursor.getMonth()-1);renderCalendar();});
