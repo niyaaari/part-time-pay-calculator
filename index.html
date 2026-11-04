@@ -36,7 +36,7 @@ button{font:inherit;cursor:pointer}.calc{width:100%;border:0;border-radius:12px;
 @keyframes resultReveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}@keyframes totalPop{0%{transform:scale(.94);opacity:.65}65%{transform:scale(1.035)}100%{transform:scale(1);opacity:1}}.result{display:none}.result.show{display:block;animation:resultReveal .32s ease both}.totalbox{text-align:center;padding:8px 0 17px}.totalbox small{color:var(--muted)}.total{font-size:46px;font-weight:850;color:var(--accent);margin:4px 0};animation:totalPop .38s ease .08s both.summary{color:var(--muted);font-size:13px}.line{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--line);font-size:14px}.line span{color:var(--muted)}.copy{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--field);color:var(--ink);margin-top:13px;font-weight:700}
 footer{font-size:11px;padding:10px 3px}
 .page-nav{display:flex;gap:8px;margin-top:15px}.nav-button{flex:1;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font-weight:700}.nav-button.active{background:var(--soft);border-color:var(--accent);color:var(--accent)}
-.calculator-page,.calendar-page{display:none}body.calculator-mode .main-page,body.calendar-mode .main-page{display:none}body.calculator-mode .calculator-page,body.calendar-mode .calendar-page{display:block}
+.calendar-page{display:none}body.calendar-mode .main-page{display:none}body.calendar-mode .calendar-page{display:block}
 .save-record{border-top:1px solid var(--line);margin-top:16px;padding-top:15px}.save-button{width:100%;margin-top:10px;padding:13px;border:0;border-radius:10px;background:var(--accent);color:white;font-weight:750}
 .calendar-heading{display:flex;align-items:center;justify-content:space-between;margin:8px 0 14px}.calendar-heading strong{font-size:19px}.month-nav{width:38px;height:38px;border:1px solid var(--line);border-radius:10px;background:var(--field);color:var(--ink);font-size:25px;line-height:1}
 .calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.calendar-weekday{text-align:center;color:var(--muted);font-size:12px;padding:5px 0}.calendar-day{min-width:0;min-height:61px;padding:6px 2px;border:1px solid var(--line);border-radius:9px;background:var(--field);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:4px}.calendar-day.empty{visibility:hidden}.calendar-day.selected{border:2px solid var(--accent);background:var(--soft)}.calendar-day.today .day-number{color:var(--accent);font-weight:800}.calendar-day.has-record{background:var(--soft)}.day-number{font-size:13px}.day-pay{font-size:10px;color:var(--accent);font-weight:750;white-space:nowrap}.month-total{margin:0 0 13px;padding:14px 12px;border:1px solid var(--accent);border-radius:12px;background:var(--soft);color:var(--accent);font-size:16px;font-weight:800;text-align:center}
@@ -52,7 +52,7 @@ footer{font-size:11px;padding:10px 3px}
 </style>
 </head>
 <body><main>
-<header><div class="topbar"><div class="eyebrow">Pantaro</div><button class="theme-toggle" id="themeToggle" type="button" aria-label="ナイトモードに切り替え">🌙 ナイト</button></div><h1>給料計算くん</h1><p class="sub">勤務時間と休憩を入力するだけ。バイト代をすぐに計算できます。</p><div class="page-nav"><button class="nav-button active" id="wagePageButton" type="button">給与計算</button><button class="nav-button" id="calculatorPageButton" type="button">電卓</button><button class="nav-button" id="calendarPageButton" type="button">カレンダー</button></div></header>
+<header><div class="topbar"><div class="eyebrow">Pantaro</div><button class="theme-toggle" id="themeToggle" type="button" aria-label="ナイトモードに切り替え">🌙 ナイト</button></div><h1>給料計算くん</h1><p class="sub">勤務時間と休憩を入力するだけ。バイト代をすぐに計算できます。</p><div class="page-nav"><button class="nav-button active" id="wagePageButton" type="button">給与計算</button><button class="nav-button" id="calendarPageButton" type="button">カレンダー</button></div></header>
 <div class="main-page" id="wagePage"><section class="card"><h2>01　勤務区分</h2><div class="choices">
 <label class="choice"><input type="radio" name="daytype" id="weekday" value="weekday" checked><span>平日</span></label>
 <label class="choice"><input type="radio" name="daytype" id="holiday" value="holiday"><span>土日祝</span></label>
@@ -87,21 +87,6 @@ footer{font-size:11px;padding:10px 3px}
 <button class="copy" id="copy" type="button">計算結果をコピー</button></section>
 <footer>※ 概算です。税金・社会保険料・交通費・その他手当は含みません。休憩は通常時間帯から先に差し引きます。</footer>
 </div>
-<section class="calculator-page" id="calculatorPage" aria-label="電卓">
- <div class="card">
-  <h2>電卓</h2>
-  <p class="hint" style="margin:0 0 12px">過去の勤務分の給与などを、自由に足し算・計算できます。</p>
-  <div class="calculator-display"><div id="calcExpression" class="calc-expression"></div><div id="calcDisplay" class="calc-display" aria-live="polite">0</div></div>
-  <div class="keypad" id="keypad">
-   <button type="button" data-action="clear" class="key utility">AC</button><button type="button" data-action="back" class="key utility">⌫</button><button type="button" data-op="÷" class="key operator">÷</button><button type="button" data-op="×" class="key operator">×</button>
-   <button type="button" data-num="7" class="key">7</button><button type="button" data-num="8" class="key">8</button><button type="button" data-num="9" class="key">9</button><button type="button" data-op="−" class="key operator">−</button>
-   <button type="button" data-num="4" class="key">4</button><button type="button" data-num="5" class="key">5</button><button type="button" data-num="6" class="key">6</button><button type="button" data-op="+" class="key operator">＋</button>
-   <button type="button" data-num="1" class="key">1</button><button type="button" data-num="2" class="key">2</button><button type="button" data-num="3" class="key">3</button><button type="button" data-action="equals" class="key equals">＝</button>
-   <button type="button" data-action="sign" class="key utility">±</button><button type="button" data-num="0" class="key zero">0</button><button type="button" data-action="decimal" class="key">.</button>
-  </div>
-  <p class="hint">例：1日目の給与 ＋ 2日目の給与 ＋ 3日目の給与 ＝ 合計</p>
- </div>
-</section>
 <section class="calendar-page" id="calendarPage" aria-label="給与カレンダー">
  <div class="card">
   <h2>給与カレンダー</h2>
@@ -238,46 +223,16 @@ $('clearRecords').addEventListener('click',()=>{
  records={};saveRecords();renderCalendar();
 });
 $('calculate').addEventListener('click',calculate);
-const wagePageButton=$('wagePageButton'),calculatorPageButton=$('calculatorPageButton'),calendarPageButton=$('calendarPageButton');
+const wagePageButton=$('wagePageButton'),calendarPageButton=$('calendarPageButton');
 function showPage(page){
- const isCalc=page==='calculator',isCalendar=page==='calendar';
- document.body.classList.toggle('calculator-mode',isCalc);document.body.classList.toggle('calendar-mode',isCalendar);
- wagePageButton.classList.toggle('active',!isCalc&&!isCalendar);calculatorPageButton.classList.toggle('active',isCalc);calendarPageButton.classList.toggle('active',isCalendar);
- calculatorPageButton.textContent='電卓';
+ const isCalendar=page==='calendar';
+ document.body.classList.toggle('calendar-mode',isCalendar);
+ wagePageButton.classList.toggle('active',!isCalendar);
+ calendarPageButton.classList.toggle('active',isCalendar);
  calendarPageButton.textContent='カレンダー';
 }
 wagePageButton.addEventListener('click',()=>showPage('wage'));
-calculatorPageButton.addEventListener('click',()=>showPage(document.body.classList.contains('calculator-mode')?'wage':'calculator'));
 calendarPageButton.addEventListener('click',()=>{if(!document.body.classList.contains('calendar-mode')){showPage('calendar');renderCalendar();}else showPage('wage');});
-let calcCurrent='0',calcStored=null,calcOperator=null,calcFresh=false,calcExpression='';
-function renderCalc(){ $('calcDisplay').textContent=calcCurrent;$('calcExpression').textContent=calcExpression; }
-function calcNumber(n){if(calcFresh){calcCurrent=n;calcFresh=false;}else if(calcCurrent==='0'){calcCurrent=n;}else if(calcCurrent.length<16){calcCurrent+=n;}renderCalc();}
-function calcOperation(a,b,op){if(op==='+')return a+b;if(op==='−')return a-b;if(op==='×')return a*b;if(op==='÷')return b===0?NaN:a/b;return b;}
-function calcChoose(op){
- const value=Number(calcCurrent);if(!Number.isFinite(value))return;
- if(calcOperator&&calcStored!==null&&!calcFresh){const result=calcOperation(calcStored,value,calcOperator);if(!Number.isFinite(result)){calcCurrent='エラー';calcStored=null;calcOperator=null;calcExpression='';calcFresh=true;renderCalc();return;}calcStored=result;calcCurrent=String(Number(result.toPrecision(12)));}
- else calcStored=value;
- calcOperator=op;calcExpression=Number(calcStored.toPrecision(12)).toLocaleString('ja-JP')+' '+op;calcFresh=true;renderCalc();
-}
-function calcEquals(){
- if(calcOperator===null||calcStored===null)return;
- const a=calcStored,b=Number(calcCurrent),op=calcOperator,result=calcOperation(a,b,op);
- calcExpression=Number(a.toPrecision(12)).toLocaleString('ja-JP')+' '+op+' '+Number(b.toPrecision(12)).toLocaleString('ja-JP')+' =';
- calcCurrent=Number.isFinite(result)?String(Number(result.toPrecision(12))):'エラー';calcStored=null;calcOperator=null;calcFresh=true;renderCalc();
-}
-$('keypad').addEventListener('click',e=>{
- const btn=e.target.closest('button');if(!btn)return;
- if(btn.dataset.num!==undefined){calcNumber(btn.dataset.num);return;}
- if(btn.dataset.op){calcChoose(btn.dataset.op);return;}
- const action=btn.dataset.action;
- if(action==='clear'){calcCurrent='0';calcStored=null;calcOperator=null;calcFresh=false;calcExpression='';}
- if(action==='back'){if(calcFresh)return;calcCurrent=calcCurrent.length>1?calcCurrent.slice(0,-1):'0';if(calcCurrent==='-')calcCurrent='0';}
- if(action==='decimal'&&!calcFresh&&!calcCurrent.includes('.'))calcCurrent+='.';
- if(action==='decimal'&&calcFresh){calcCurrent='0.';calcFresh=false;}
- if(action==='sign'&&calcCurrent!=='0'&&calcCurrent!=='エラー')calcCurrent=String(-Number(calcCurrent));
- if(action==='equals')calcEquals();
- renderCalc();
-});
 
 $('copy').addEventListener('click',async()=>{
  const value='給料計算くん\n区分：'+($('holiday').checked?'土日祝':'平日')+'\n勤務：'+$('start').value+'〜'+$('end').value+'\n実働：'+$('duration').textContent+'\n休憩：'+$('breakTime').textContent+'\n通常時間：'+$('normalTime').textContent+'\n深夜時間：'+$('nightTime').textContent+'\n合計：'+$('total').textContent;
