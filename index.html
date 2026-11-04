@@ -52,7 +52,7 @@ footer{font-size:11px;padding:10px 3px}
 </style>
 </head>
 <body><main>
-<header><div class="topbar"><div class="eyebrow">Pantaro</div><button class="theme-toggle" id="themeToggle" type="button" aria-label="ナイトモードに切り替え">🌙 ナイト</button></div><h1>給料計算くん</h1><p class="sub">勤務時間と休憩を入力するだけ。バイト代をすぐに計算できます。</p><div class="page-nav"><button class="nav-button active" id="wagePageButton" type="button">給与計算</button><button class="nav-button" id="calculatorPageButton" type="button">電卓を開く</button><button class="nav-button" id="calendarPageButton" type="button">カレンダー</button></div></header>
+<header><div class="topbar"><div class="eyebrow">Pantaro</div><button class="theme-toggle" id="themeToggle" type="button" aria-label="ナイトモードに切り替え">🌙 ナイト</button></div><h1>給料計算くん</h1><p class="sub">勤務時間と休憩を入力するだけ。バイト代をすぐに計算できます。</p><div class="page-nav"><button class="nav-button active" id="wagePageButton" type="button">給与計算</button><button class="nav-button" id="calculatorPageButton" type="button">電卓</button><button class="nav-button" id="calendarPageButton" type="button">カレンダー</button></div></header>
 <div class="main-page" id="wagePage"><section class="card"><h2>01　勤務区分</h2><div class="choices">
 <label class="choice"><input type="radio" name="daytype" id="weekday" value="weekday" checked><span>平日</span></label>
 <label class="choice"><input type="radio" name="daytype" id="holiday" value="holiday"><span>土日祝</span></label>
@@ -243,8 +243,8 @@ function showPage(page){
  const isCalc=page==='calculator',isCalendar=page==='calendar';
  document.body.classList.toggle('calculator-mode',isCalc);document.body.classList.toggle('calendar-mode',isCalendar);
  wagePageButton.classList.toggle('active',!isCalc&&!isCalendar);calculatorPageButton.classList.toggle('active',isCalc);calendarPageButton.classList.toggle('active',isCalendar);
- calculatorPageButton.textContent=isCalc?'給与計算に戻る':'電卓を開く';
- calendarPageButton.textContent=isCalendar?'給与計算に戻る':'カレンダー';
+ calculatorPageButton.textContent='電卓';
+ calendarPageButton.textContent='カレンダー';
 }
 wagePageButton.addEventListener('click',()=>showPage('wage'));
 calculatorPageButton.addEventListener('click',()=>showPage(document.body.classList.contains('calculator-mode')?'wage':'calculator'));
