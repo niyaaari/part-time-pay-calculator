@@ -99,7 +99,7 @@ footer{font-size:11px;padding:10px 3px}
   <h2 id="selectedDateTitle">日付を選択</h2>
   <div id="selectedRecords" class="record-list"><p class="hint">カレンダーの日付をタップしてください。</p></div>
  </div>
- <div class="calendar-actions"><button class="copy" id="exportRecords" type="button">記録をコピー</button><button class="copy" id="clearRecords" type="button">すべての記録を削除</button></div>
+ <div class="calendar-actions"><button class="copy" id="exportRecords" type="button">記録をコピー</button><button class="copy" id="clearRecords" type="button">選択した日の記録を削除</button></div>
 </section>
 </main>
 <script>
@@ -262,9 +262,12 @@ $('exportRecords').addEventListener('click',async()=>{
  try{await navigator.clipboard.writeText(lines.join('\n'));$('exportRecords').textContent='コピーしました！';}catch(e){$('exportRecords').textContent='コピーできませんでした';}
 });
 $('clearRecords').addEventListener('click',()=>{
- if(!Object.keys(records).length){return;}
- if(!confirm('保存した給与記録をすべて削除しますか？この操作は取り消せません。'))return;
- records={};saveRecords();renderCalendar();
+ const items=dayRecords(selectedCalendarDate);
+ if(!items.length){alert('選択した日に削除できる記録はありません。');return;}
+ if(!confirm(formatDate(selectedCalendarDate)+'の記録 '+items.length+'件を削除しますか？\n他の日の記録は残ります。'))return;
+ delete records[selectedCalendarDate];
+ saveRecords();
+ renderCalendar();
 });
 $('calculate').addEventListener('click',calculate);
 const wagePageButton=$('wagePageButton'),calendarPageButton=$('calendarPageButton');
