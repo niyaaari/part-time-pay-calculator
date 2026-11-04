@@ -12,7 +12,7 @@ main{max-width:600px;margin:auto}header{margin:0 0 22px}.eyebrow{font-size:12px;
 .card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:19px;margin:13px 0;box-shadow:0 10px 28px #1e32500d}h2{font-size:16px;margin:0 0 15px}
 .choices,.fields,.rates{display:grid;grid-template-columns:1fr 1fr;gap:10px}.choice{position:relative}.choice input{position:absolute;opacity:0}.choice span{display:block;text-align:center;padding:14px;border:1.5px solid var(--line);border-radius:11px;font-weight:700}.choice input:checked+span{border-color:var(--accent);background:var(--soft);color:var(--accent)}
 label.field{display:block;color:var(--muted);font-size:13px;font-weight:650}.field input{display:block;width:100%;margin-top:7px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fbfcfe;color:var(--ink);font:inherit;font-size:18px;min-width:0}
-.hint{margin:11px 0 0;font-size:12px}.rate{background:#f8faff;border:1px solid var(--line);border-radius:10px;padding:12px}.rate small{display:block;color:var(--muted);font-size:12px}.rate strong{font-size:19px}.rate input{width:100%;margin-top:7px;padding:9px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);font:inherit;font-size:17px;font-weight:700}
+.hint{margin:11px 0 0;font-size:12px}.rate{background:#f8faff;border:1px solid var(--line);border-radius:10px;padding:12px}.rate small{display:block;color:var(--muted);font-size:12px}.rate strong{font-size:19px}.rate input{width:100%;margin-top:7px;padding:9px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);font:inherit;font-size:17px;font-weight:700}.low-warning{display:none;color:#d32636;font-size:13px;font-weight:800;margin-top:5px}.low-warning.show{display:block}.field select{display:block;width:100%;margin-top:7px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fbfcfe;color:var(--ink);font:inherit;font-size:17px}
 button{font:inherit;cursor:pointer}.calc{width:100%;border:0;border-radius:12px;background:var(--accent);color:white;font-weight:750;padding:16px;font-size:16px}.error{color:#c23b43;min-height:20px;font-size:13px;margin:8px 2px}
 .result{display:none}.result.show{display:block}.totalbox{text-align:center;padding:8px 0 17px}.totalbox small{color:var(--muted)}.total{font-size:46px;font-weight:850;color:var(--accent);margin:4px 0}.summary{color:var(--muted);font-size:13px}.line{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--line);font-size:14px}.line span{color:var(--muted)}.copy{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;margin-top:13px;font-weight:700}
 footer{font-size:11px;padding:10px 3px}@media(max-width:390px){h1{font-size:26px}.card{padding:15px}.field input{font-size:16px}}
@@ -32,11 +32,12 @@ footer{font-size:11px;padding:10px 3px}@media(max-width:390px){h1{font-size:26px
 <label class="field">休憩（時間）<input id="breakH" type="number" min="0" max="24" step="1" value="0" inputmode="numeric"></label>
 <label class="field">休憩（分）<input id="breakM" type="number" min="0" max="59" step="1" value="0" inputmode="numeric"></label>
 </div><p class="hint">例：1時間30分なら「1」と「30」。休憩は通常時間帯（5:00〜22:00）から先に差し引きます。</p></section>
-<section class="card"><h2>04　時給設定</h2><div class="rates">
-<label class="rate"><small>平日・通常（円/時）</small><input id="weekdayRate" type="number" min="0" step="1" value="1200" inputmode="numeric"></label>
-<label class="rate"><small>土日祝・通常（円/時）</small><input id="holidayRate" type="number" min="0" step="1" value="1250" inputmode="numeric"></label>
-<label class="rate"><small>平日・深夜（円/時）</small><input id="weekdayNightRate" type="number" min="0" step="1" value="1500" inputmode="numeric"></label>
-<label class="rate"><small>土日祝・深夜（円/時）</small><input id="holidayNightRate" type="number" min="0" step="1" value="1550" inputmode="numeric"></label>
+<section class="card"><h2>04　給与の計算単位</h2><label class="field">何分単位で計算する？<select id="roundUnit"><option value="1">1分単位</option><option value="5">5分単位</option><option value="15">15分単位</option></select></label><p class="hint">5分・15分単位の場合、各時間帯の端数を切り捨てます。</p></section>
+<section class="card"><h2>05　時給設定</h2><div class="rates">
+<label class="rate"><small>平日（円/時）</small><input id="weekdayRate" type="number" min="0" step="1" value="1200" inputmode="numeric"><span class="low-warning" id="weekdayRateWarning">低い！</span></label>
+<label class="rate"><small>平日深夜（円/時）</small><input id="weekdayNightRate" type="number" min="0" step="1" value="1500" inputmode="numeric"><span class="low-warning" id="weekdayNightRateWarning">低い！</span></label>
+<label class="rate"><small>土日祝（円/時）</small><input id="holidayRate" type="number" min="0" step="1" value="1250" inputmode="numeric"><span class="low-warning" id="holidayRateWarning">低い！</span></label>
+<label class="rate"><small>土日祝深夜（円/時）</small><input id="holidayNightRate" type="number" min="0" step="1" value="1550" inputmode="numeric"><span class="low-warning" id="holidayNightRateWarning">低い！</span></label>
 </div><p class="hint">深夜時間帯：22:00〜翌5:00</p></section>
 <button class="calc" id="calculate" type="button">給与を計算する</button><div class="error" id="error" role="alert"></div>
 <section class="card result" id="result" aria-live="polite"><h2>計算結果</h2>
@@ -52,13 +53,16 @@ footer{font-size:11px;padding:10px 3px}@media(max-width:390px){h1{font-size:26px
 const $=id=>document.getElementById(id);
 const yen=n=>Math.round(n).toLocaleString('ja-JP')+'円';
 const hm=m=>Math.floor(m/60)+'時間'+(m%60)+'分';
-const rateIds=['weekdayRate','holidayRate','weekdayNightRate','holidayNightRate'];
-const defaultRates=[1200,1250,1500,1550];
+const rateIds=['weekdayRate','weekdayNightRate','holidayRate','holidayNightRate'];
+const defaultRates=[1200,1500,1250,1550];
 function loadRates(){rateIds.forEach((id,i)=>{const saved=localStorage.getItem('salaryCalc_'+id);$(id).value=saved!==null?saved:defaultRates[i];});}
 function saveRates(){rateIds.forEach(id=>localStorage.setItem('salaryCalc_'+id,$(id).value));}
+function updateWarnings(){rateIds.forEach(id=>$(id+'Warning').classList.toggle('show',$(id).value!==''&&Number($(id).value)<1200));}
 loadRates();
-rateIds.forEach(id=>$(id).addEventListener('change',saveRates));
-rateIds.forEach(id=>$(id).addEventListener('input',saveRates));
+rateIds.forEach(id=>{ $(id).addEventListener('change',saveRates); $(id).addEventListener('input',()=>{saveRates();updateWarnings();}); });
+updateWarnings();
+const savedUnit=localStorage.getItem('salaryCalc_roundUnit');if(savedUnit&&['1','5','15'].includes(savedUnit))$('roundUnit').value=savedUnit;
+$('roundUnit').addEventListener('change',()=>localStorage.setItem('salaryCalc_roundUnit',$('roundUnit').value));
 function calculate(){
  const err=$('error');err.textContent='';$('result').classList.remove('show');
  const s=$('start').value,e=$('end').value;
@@ -75,13 +79,16 @@ function calculate(){
  for(let t=a;t<b;t++){const h=Math.floor((t%1440)/60);if(h>=22||h<5)night++;else normal++;}
  if(rest>normal){err.textContent='休憩時間が通常時間帯の勤務時間を超えています。';return;}
  normal-=rest;
+ const unit=Number($('roundUnit').value);
+ normal=Math.floor(normal/unit)*unit;
+ night=Math.floor(night/unit)*unit;
  const holiday=$('holiday').checked;
  const rate=Number($(holiday?'holidayRate':'weekdayRate').value);
  const nightRate=Number($(holiday?'holidayNightRate':'weekdayNightRate').value);
  if(!Number.isFinite(rate)||!Number.isFinite(nightRate)||rate<0||nightRate<0||$(holiday?'holidayRate':'weekdayRate').value===''||$(holiday?'holidayNightRate':'weekdayNightRate').value===''){err.textContent='時給を0以上の数値で入力してください。';return;}
  const normalPay=normal*rate/60,nightPay=night*nightRate/60,totalPay=normalPay+nightPay;
  $('total').textContent=yen(totalPay);$('total2').textContent=yen(totalPay);
- $('duration').textContent='実働 '+hm(worked-rest);
+ $('duration').textContent='実働 '+hm(normal+night)+'（'+unit+'分単位・端数切り捨て）';
  $('normalTime').textContent=hm(normal);$('nightTime').textContent=hm(night);$('breakTime').textContent=hm(rest);
  $('details').innerHTML='<div class="line"><span>通常 '+rate.toLocaleString()+'円 × '+hm(normal)+'</span><strong>'+yen(normalPay)+'</strong></div><div class="line"><span>深夜 '+nightRate.toLocaleString()+'円 × '+hm(night)+'</span><strong>'+yen(nightPay)+'</strong></div>';
  $('result').classList.add('show');
