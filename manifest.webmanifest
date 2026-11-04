@@ -1,0 +1,18 @@
+{
+  "name": "給料計算くん",
+  "short_name": "給料計算くん",
+  "description": "勤務時間と休憩を入力するだけ。バイト代をすぐに計算できます。",
+  "start_url": "/part-time-pay-calculator/",
+  "scope": "/part-time-pay-calculator/",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#f5f7fb",
+  "icons": [
+    {
+      "src": "https://cdn.discordapp.com/avatars/1131203021846630434/6f2d0856ea4300a0265f51eca689a6fa.png?size=512",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
