@@ -39,7 +39,7 @@ footer{font-size:11px;padding:10px 3px}
 .calculator-page,.calendar-page{display:none}body.calculator-mode .main-page,body.calendar-mode .main-page{display:none}body.calculator-mode .calculator-page,body.calendar-mode .calendar-page{display:block}
 .save-record{border-top:1px solid var(--line);margin-top:16px;padding-top:15px}.save-button{width:100%;margin-top:10px;padding:13px;border:0;border-radius:10px;background:var(--accent);color:white;font-weight:750}
 .calendar-heading{display:flex;align-items:center;justify-content:space-between;margin:8px 0 14px}.calendar-heading strong{font-size:19px}.month-nav{width:38px;height:38px;border:1px solid var(--line);border-radius:10px;background:var(--field);color:var(--ink);font-size:25px;line-height:1}
-.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.calendar-weekday{text-align:center;color:var(--muted);font-size:12px;padding:5px 0}.calendar-day{min-width:0;min-height:61px;padding:6px 2px;border:1px solid var(--line);border-radius:9px;background:var(--field);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:4px}.calendar-day.empty{visibility:hidden}.calendar-day.selected{border:2px solid var(--accent);background:var(--soft)}.calendar-day.today .day-number{color:var(--accent);font-weight:800}.calendar-day.has-record{background:var(--soft)}.day-number{font-size:13px}.day-pay{font-size:10px;color:var(--accent);font-weight:750;white-space:nowrap}.month-total{margin-top:14px;padding:12px;border-radius:10px;background:var(--soft);font-size:14px;font-weight:750;text-align:center}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.calendar-weekday{text-align:center;color:var(--muted);font-size:12px;padding:5px 0}.calendar-day{min-width:0;min-height:61px;padding:6px 2px;border:1px solid var(--line);border-radius:9px;background:var(--field);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:4px}.calendar-day.empty{visibility:hidden}.calendar-day.selected{border:2px solid var(--accent);background:var(--soft)}.calendar-day.today .day-number{color:var(--accent);font-weight:800}.calendar-day.has-record{background:var(--soft)}.day-number{font-size:13px}.day-pay{font-size:10px;color:var(--accent);font-weight:750;white-space:nowrap}.month-total{margin:0 0 13px;padding:14px 12px;border:1px solid var(--accent);border-radius:12px;background:var(--soft);color:var(--accent);font-size:16px;font-weight:800;text-align:center}
 .record-list{display:grid;gap:9px}.record-item{padding:11px;border:1px solid var(--line);border-radius:10px;background:var(--input)}.record-item-top{display:flex;justify-content:space-between;gap:8px;font-weight:750}.record-meta{color:var(--muted);font-size:12px;margin-top:5px}.delete-record{margin-top:8px;border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--field);color:var(--muted);font-size:12px}.calendar-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.calendar-actions .copy{margin:0}.calendar-actions #clearRecords{color:#c23b43}
 .nav-button,.key,.save-button,.month-nav,.calendar-day{transition:background-color .2s ease,color .2s ease,border-color .2s ease,transform .15s ease}
 @media(max-width:390px){.page-nav{gap:5px}.nav-button{padding:9px 5px;font-size:12px}.calendar-grid{gap:3px}.calendar-day{min-height:54px}.day-pay{font-size:9px}}
@@ -107,8 +107,8 @@ footer{font-size:11px;padding:10px 3px}
   <h2>給与カレンダー</h2>
   <p class="hint" style="margin:0 0 12px">日付ごとの給与を確認できます。日付を選ぶと、その日の記録が表示されます。</p>
   <div class="calendar-heading"><button class="month-nav" id="prevMonth" type="button" aria-label="前の月">‹</button><strong id="calendarMonth"></strong><button class="month-nav" id="nextMonth" type="button" aria-label="次の月">›</button></div>
-  <div class="calendar-grid" id="calendarGrid"></div>
   <div class="month-total" id="monthTotal"></div>
+  <div class="calendar-grid" id="calendarGrid"></div>
  </div>
  <div class="card">
   <h2 id="selectedDateTitle">日付を選択</h2>
@@ -198,7 +198,7 @@ function renderCalendar(){
   grid.appendChild(btn);
  }
  const total=Object.keys(records).filter(d=>d.startsWith(year+'-'+String(month+1).padStart(2,'0')+'-')).reduce((sum,d)=>sum+dayTotal(d),0);
- $('monthTotal').textContent='今月の合計：'+yen(total);
+ $('monthTotal').textContent=year+'年'+(month+1)+'月の合計給与：'+yen(total);
  renderSelectedRecords();
 }
 function renderSelectedRecords(){
