@@ -29,6 +29,7 @@
 body,.card,.rate,.field input,.field select,.field select option,.choice span,.theme-toggle,.copy,footer,h1,h2,label,.sub,.hint,.eyebrow,.line,.summary,.totalbox small{transition:background-color .28s ease,color .28s ease,border-color .28s ease,box-shadow .28s ease}
 .theme-toggle{transition:background-color .28s ease,color .28s ease,border-color .28s ease,transform .28s ease}
 .theme-toggle:active{transform:scale(.94)}
+.settings-toggle{width:38px;height:38px;display:grid;place-items:center;border:0;border-radius:50%;background:var(--accent);color:#fff;cursor:pointer;transition:transform .2s ease,filter .2s ease}.settings-toggle:active{transform:scale(.92)}.settings-toggle svg{width:21px;height:21px;display:block}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"GenEi M Gothic",system-ui,-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;padding:26px 15px 42px}
 main{max-width:600px;margin:auto}header{margin:0 0 22px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}.theme-toggle{border:1px solid var(--line);border-radius:999px;padding:8px 13px;background:var(--card);color:var(--ink);font-size:13px;font-weight:700;white-space:nowrap}.eyebrow{font-size:12px;font-weight:750;letter-spacing:.12em;color:var(--accent)}h1{font-size:30px;margin:7px 0}.sub,.hint,footer{color:var(--muted);font-size:13px;line-height:1.7}
@@ -157,7 +158,7 @@ button:active::before,button:active::after{opacity:1;transition:opacity 0s}
 </style>
 </head>
 <body><main>
-<header><div class="topbar"><div class="eyebrow">Pantaro</div><button class="theme-toggle" id="themeToggle" type="button" aria-label="ナイトモードに切り替え">🌙 ナイト</button></div><h1 class="fx-pewpew" role="img" aria-label="給料計算くん"><b aria-hidden="true" style="--i:0">給</b><b aria-hidden="true" style="--i:1">料</b><b aria-hidden="true" style="--i:2">計</b><b aria-hidden="true" style="--i:3">算</b><b aria-hidden="true" style="--i:4">く</b><b aria-hidden="true" style="--i:5">ん</b></h1><p class="sub">勤務時間と休憩を入力するだけ。バイト代をすぐに計算できます。</p><div class="page-nav"><button class="nav-button active" id="wagePageButton" type="button">給与計算</button><button class="nav-button" id="calendarPageButton" type="button">カレンダー</button><button class="nav-button" id="settingsPageButton" type="button">設定</button></div></header>
+<header><div class="topbar"><div class="eyebrow">Pantaro</div><div style="display:flex;align-items:center;gap:8px"><button class="settings-toggle" id="settingsPageButton" type="button" aria-label="設定を開く" title="設定"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></button><button class="theme-toggle" id="themeToggle" type="button" aria-label="ナイトモードに切り替え">🌙 ナイト</button></div></div><h1 class="fx-pewpew" role="img" aria-label="給料計算くん"><b aria-hidden="true" style="--i:0">給</b><b aria-hidden="true" style="--i:1">料</b><b aria-hidden="true" style="--i:2">計</b><b aria-hidden="true" style="--i:3">算</b><b aria-hidden="true" style="--i:4">く</b><b aria-hidden="true" style="--i:5">ん</b></h1><p class="sub">勤務時間と休憩を入力するだけ。バイト代をすぐに計算できます。</p><div class="page-nav"><button class="nav-button active" id="wagePageButton" type="button">給与計算</button><button class="nav-button" id="calendarPageButton" type="button">カレンダー</button></div></header>
 <div class="main-page" id="wagePage"><section class="card"><h2>01　勤務区分</h2><div class="choices">
 <label class="choice"><input type="radio" name="daytype" id="weekday" value="weekday" checked><span>平日</span></label>
 <label class="choice"><input type="radio" name="daytype" id="holiday" value="holiday"><span>土日祝</span></label>
@@ -390,11 +391,11 @@ function showPage(page){
  document.body.classList.toggle('settings-mode',isSettings);
  wagePageButton.classList.toggle('active',page==='wage');
  calendarPageButton.classList.toggle('active',isCalendar);
- settingsPageButton.classList.toggle('active',isSettings);
+ settingsPageButton.setAttribute('aria-label',isSettings?'設定を閉じる':'設定を開く');
 }
 wagePageButton.addEventListener('click',()=>showPage('wage'));
 calendarPageButton.addEventListener('click',()=>{showPage('calendar');renderCalendar();});
-settingsPageButton.addEventListener('click',()=>showPage('settings'));
+settingsPageButton.addEventListener('click',()=>showPage(document.body.classList.contains('settings-mode')?'wage':'settings'));
 const hideCalendarYen=$('hideCalendarYen');
 hideCalendarYen.checked=localStorage.getItem('salaryCalc_hideCalendarYen')==='true';
 hideCalendarYen.addEventListener('change',()=>{localStorage.setItem('salaryCalc_hideCalendarYen',String(hideCalendarYen.checked));renderCalendar();});
