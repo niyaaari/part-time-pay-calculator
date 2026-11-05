@@ -32,7 +32,7 @@ body,.card,.rate,.field input,.field select,.field select option,.choice span,.t
 .settings-toggle{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);cursor:pointer;transition:background-color .28s ease,color .28s ease,border-color .28s ease,transform .2s ease}.settings-toggle:active{transform:scale(.92)}.settings-toggle svg{width:21px;height:21px;display:block}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"GenEi M Gothic",system-ui,-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;padding:26px 15px 42px}
-main{max-width:600px;margin:auto}header{margin:0 0 22px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}.theme-toggle{border:1px solid var(--line);border-radius:999px;padding:8px 13px;background:var(--card);color:var(--ink);font-size:13px;font-weight:700;white-space:nowrap}.eyebrow{font-size:12px;font-weight:750;letter-spacing:.12em;color:var(--accent)}h1{font-size:30px;margin:7px 0}.sub,.hint,footer{color:var(--muted);font-size:13px;line-height:1.7}
+main{max-width:600px;margin:auto}header{margin:0 0 22px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}.theme-toggle{display:grid;place-items:center;width:40px;height:40px;padding:0;border:1px solid var(--control-border);border-radius:999px;background:var(--card);color:var(--ink)}.theme-toggle svg{display:block;width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.eyebrow{font-size:12px;font-weight:750;letter-spacing:.12em;color:var(--accent)}h1{font-size:30px;margin:7px 0}.sub,.hint,footer{color:var(--muted);font-size:13px;line-height:1.7}
 .card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:19px;margin:13px 0;box-shadow:var(--shadow)}h2{font-size:16px;margin:0 0 15px}
 /* 背景はライト・ダークともに単色 */
 body{background:var(--bg)}
@@ -408,7 +408,7 @@ const themeToggle=$('themeToggle');
 function setTheme(theme){
  const dark=theme==='dark';
  document.documentElement.dataset.theme=dark?'dark':'light';
- themeToggle.textContent=dark?'☀️ ライト':'🌙 ナイト';
+ themeToggle.innerHTML=dark?'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>':'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
  themeToggle.setAttribute('aria-label',dark?'ライトモードに切り替え':'ナイトモードに切り替え');
  document.querySelector('meta[name="theme-color"]').content=dark?'#202226':'#f5f7fb';
  localStorage.setItem('salaryCalc_theme',dark?'dark':'light');
