@@ -34,8 +34,8 @@ body,.card,.rate,.field input,.field select,.field select option,.choice span,.t
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"GenEi M Gothic",system-ui,-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;padding:26px 15px 42px}
 main{max-width:600px;margin:auto}header{margin:0 0 22px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px}.theme-toggle{border:1px solid var(--line);border-radius:999px;padding:8px 13px;background:var(--card);color:var(--ink);font-size:13px;font-weight:700;white-space:nowrap}.eyebrow{font-size:12px;font-weight:750;letter-spacing:.12em;color:var(--accent)}h1{font-size:30px;margin:7px 0}.sub,.hint,footer{color:var(--muted);font-size:13px;line-height:1.7}
 .card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:19px;margin:13px 0;box-shadow:var(--shadow)}h2{font-size:16px;margin:0 0 15px}
-/* リキッドグラス風のカード */
-body{background:radial-gradient(ellipse at 12% 5%,rgba(132,170,255,.22),transparent 38%),radial-gradient(ellipse at 92% 32%,rgba(185,214,255,.28),transparent 34%),var(--bg)}
+/* 背景はライト・ダークともに単色 */
+body{background:var(--bg)}
 :root[data-theme="dark"] body{background:var(--bg)}
 .card{background:var(--card);backdrop-filter:blur(16px) saturate(145%);-webkit-backdrop-filter:blur(16px) saturate(145%);border:1px solid var(--glass-border);box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.22)}
 .rate,.record-item,.calculator-display{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
