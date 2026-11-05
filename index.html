@@ -163,6 +163,12 @@ button:active::before,button:active::after{opacity:1;transition:opacity 0s}
   48%{transform:skewX(-6deg) translateY(2px);opacity:.75}
   50%{transform:translateX(2px)}
 }
+
+/* スマートフォンでも未選択ナビボタンと同じ面色に統一 */
+@media(max-width:700px){
+  .field input,.field select,.rate input{background-color:var(--card)!important;color:var(--ink);color-scheme:inherit}
+  .choice input:not(:checked)+span{background-color:var(--card)}
+}
 </style>
 </head>
 <body><main>
