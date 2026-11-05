@@ -21,7 +21,6 @@
 <style>
 :root{color-scheme:light;--bg:#edf2fa;--card:rgba(255,255,255,.66);--ink:#172033;--muted:#718096;--line:rgba(255,255,255,.72);--accent:#315ee8;--soft:rgba(237,242,255,.78);--input:rgba(255,255,255,.58);--rate:rgba(248,250,255,.52);--field:rgba(255,255,255,.72);--shadow:0 12px 34px rgba(40,62,100,.09);--glass-border:rgba(255,255,255,.78)}
 :root[data-theme="dark"]{color-scheme:dark;--bg:#171b25;--card:rgba(43,46,56,.76);--ink:#e7e9ee;--muted:#a5aab5;--line:rgba(255,255,255,.10);--accent:#91aaff;--soft:rgba(56,63,80,.78);--input:rgba(30,34,43,.58);--rate:rgba(48,52,59,.62);--field:rgba(52,56,64,.78);--shadow:0 14px 38px rgba(0,0,0,.22);--glass-border:rgba(255,255,255,.12)}
-:root[data-theme="dark"] .low-warning{color:#ff7d86}
 :root[data-theme="dark"] .error{color:#ff858c}
 /* テーマ切り替えをなめらかに */
 body,.card,.rate,.field input,.field select,.field select option,.choice span,.theme-toggle,.copy,footer,h1,h2,label,.sub,.hint,.eyebrow,.line,.summary,.totalbox small{transition:background-color .28s ease,color .28s ease,border-color .28s ease,box-shadow .28s ease}
@@ -38,7 +37,7 @@ body{background:radial-gradient(ellipse at 12% 5%,rgba(132,170,255,.22),transpar
 .rate,.record-item,.calculator-display{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .choices,.fields,.rates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.fields>.field{min-width:0}.choice{position:relative}.choice input{position:absolute;opacity:0}.choice span{display:block;text-align:center;padding:14px;border:1.5px solid var(--line);border-radius:11px;font-weight:700}.choice input:checked+span{border-color:var(--accent);background:var(--soft);color:var(--accent)}
 label.field{display:block;color:var(--muted);font-size:13px;font-weight:650}.field input{display:block;width:100%;margin-top:7px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--input);color:var(--ink);font:inherit;font-size:18px;min-width:0}.field input[type="time"]{display:block;box-sizing:border-box;width:100%;max-width:100%;min-width:0;min-inline-size:0;padding:9px 4px;font-size:14px;letter-spacing:-.3px}
-.hint{margin:11px 0 0;font-size:12px}.rate{background:var(--rate);border:1px solid var(--line);border-radius:10px;padding:12px}.rate small{display:block;color:var(--muted);font-size:12px}.rate strong{font-size:19px}.rate input{width:100%;margin-top:7px;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--field);color:var(--ink);font:inherit;font-size:17px;font-weight:700}.low-warning{display:none;color:#d32636;font-size:13px;font-weight:800;margin-top:5px}.low-warning.show{display:block}.field select{display:block;width:100%;margin-top:7px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--input);color:var(--ink);font:inherit;font-size:17px}.field select option{background:var(--card);color:var(--ink)}
+.hint{margin:11px 0 0;font-size:12px}.rate{background:var(--rate);border:1px solid var(--line);border-radius:10px;padding:12px}.rate small{display:block;color:var(--muted);font-size:12px}.rate strong{font-size:19px}.rate input{width:100%;margin-top:7px;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--field);color:var(--ink);font:inherit;font-size:17px;font-weight:700}.minimum-wage-label{display:block;min-height:0;color:var(--accent);font-size:12px;font-weight:750;margin-top:5px}.minimum-wage-label:empty{display:none}.field select{display:block;width:100%;margin-top:7px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--input);color:var(--ink);font:inherit;font-size:17px}.field select option{background:var(--card);color:var(--ink)}
 button{font:inherit;cursor:pointer}.calc{width:100%;border:0;border-radius:12px;background:var(--accent);color:white;font-weight:750;padding:16px;font-size:16px}.error{color:#c23b43;min-height:20px;font-size:13px;margin:8px 2px}
 @keyframes resultReveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}@keyframes totalPop{0%{transform:scale(.94);opacity:.65}65%{transform:scale(1.035)}100%{transform:scale(1);opacity:1}}.result{display:none}.result.show{display:block;animation:resultReveal .32s ease both}.totalbox{text-align:center;padding:8px 0 17px}.totalbox small{color:var(--muted)}.total{font-size:46px;font-weight:850;color:var(--accent);margin:4px 0};animation:totalPop .38s ease .08s both.summary{color:var(--muted);font-size:13px}.line{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--line);font-size:14px}.line span{color:var(--muted)}.copy{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--field);color:var(--ink);margin-top:13px;font-weight:700}
 footer{font-size:11px;padding:10px 3px}
@@ -76,11 +75,11 @@ footer{font-size:11px;padding:10px 3px}
 </div><p class="hint">例：1時間30分なら「1」と「30」。休憩は通常時間帯（5:00〜22:00）から先に差し引きます。</p></section>
 <section class="card"><h2>04　給与の計算単位</h2><label class="field">何分単位で計算する？<select id="roundUnit"><option value="1">1分単位</option><option value="5">5分単位</option><option value="15">15分単位</option></select></label><p class="hint">5分・15分単位の場合、各時間帯の端数を切り捨てます。</p></section>
 <section class="card"><h2>05　時給設定</h2><label class="field">時給プリセット<select id="ratePreset"><option value="custom">プリセットを選択</option><option value="sushiro">スシロー</option><option value="lawson">ローソン</option></select></label><p class="hint">プリセットを選ぶと、下の4つの時給に一括で反映されます。反映後も個別に変更できます。</p><div class="rates">
-<label class="rate"><small>平日（円/時）</small><input id="weekdayRate" type="number" min="0" step="1" value="1200" inputmode="numeric"><span class="low-warning" id="weekdayRateWarning">低い！</span></label>
-<label class="rate"><small>平日深夜（円/時）</small><input id="weekdayNightRate" type="number" min="0" step="1" value="1500" inputmode="numeric"><span class="low-warning" id="weekdayNightRateWarning">低い！</span></label>
-<label class="rate"><small>土日祝（円/時）</small><input id="holidayRate" type="number" min="0" step="1" value="1250" inputmode="numeric"><span class="low-warning" id="holidayRateWarning">低い！</span></label>
-<label class="rate"><small>土日祝深夜（円/時）</small><input id="holidayNightRate" type="number" min="0" step="1" value="1550" inputmode="numeric"><span class="low-warning" id="holidayNightRateWarning">低い！</span></label>
-</div><p class="hint">深夜時間帯：22:00〜翌5:00</p></section>
+<label class="rate"><small>平日（円/時）</small><input id="weekdayRate" type="number" min="0" step="1" value="1200" inputmode="numeric"><span class="minimum-wage-label" id="weekdayRateMinimum"></span></label>
+<label class="rate"><small>平日深夜（円/時）</small><input id="weekdayNightRate" type="number" min="0" step="1" value="1500" inputmode="numeric"><span class="minimum-wage-label" id="weekdayNightRateMinimum"></span></label>
+<label class="rate"><small>土日祝（円/時）</small><input id="holidayRate" type="number" min="0" step="1" value="1250" inputmode="numeric"><span class="minimum-wage-label" id="holidayRateMinimum"></span></label>
+<label class="rate"><small>土日祝深夜（円/時）</small><input id="holidayNightRate" type="number" min="0" step="1" value="1550" inputmode="numeric"><span class="minimum-wage-label" id="holidayNightRateMinimum"></span></label>
+</div><p class="hint">深夜時間帯：22:00〜翌5:00</p><label class="field" style="display:block;margin-top:14px">勤務地の都道府県<select id="minimumWagePrefecture"><option value="">都道府県を選択</option></select></label><p class="hint">入力した時給が地域別最低賃金と一致すると、該当する最低時給を表示します。</p></section>
 <button class="calc" id="calculate" type="button">給与を計算する</button><div class="error" id="error" role="alert"></div>
 <section class="card result" id="result" aria-live="polite"><h2>計算結果</h2>
 <div class="totalbox"><small>今回の予想給与</small><div class="total" id="total">0円</div><div class="summary" id="duration"></div></div>
@@ -119,7 +118,34 @@ const rateIds=['weekdayRate','weekdayNightRate','holidayRate','holidayNightRate'
 const defaultRates=[1200,1500,1250,1550];
 function loadRates(){rateIds.forEach((id,i)=>{const saved=localStorage.getItem('salaryCalc_'+id);$(id).value=saved!==null?saved:defaultRates[i];});}
 function saveRates(){rateIds.forEach(id=>localStorage.setItem('salaryCalc_'+id,$(id).value));}
-function updateWarnings(){rateIds.forEach(id=>$(id+'Warning').classList.toggle('show',$(id).value!==''&&Number($(id).value)<1200));}
+// 令和8年度・2026年11月5日時点の地域別最低賃金（発効済み額）
+const minimumWages={
+"北海道":1131,"青森県":1090,"岩手県":1031,"宮城県":1098,"秋田県":1090,"山形県":1092,"福島県":1094,
+"茨城県":1136,"栃木県":1125,"群馬県":1120,"埼玉県":1196,"千葉県":1195,"東京都":1280,"神奈川県":1279,
+"新潟県":1108,"富山県":1119,"石川県":1113,"福井県":1112,"山梨県":1052,"長野県":1117,"岐阜県":1121,"静岡県":1154,"愛知県":1195,
+"三重県":1143,"滋賀県":1136,"京都府":1122,"大阪府":1231,"兵庫県":1172,"奈良県":1107,"和歌山県":1101,
+"鳥取県":1090,"島根県":1092,"岡山県":1104,"広島県":1141,"山口県":1101,
+"徳島県":1103,"香川県":1092,"愛媛県":1093,"高知県":1086,
+"福岡県":1114,"佐賀県":1030,"長崎県":1087,"熊本県":1034,"大分県":1096,"宮崎県":1085,"鹿児島県":1090,"沖縄県":1023
+};
+const prefectureSelect=$('minimumWagePrefecture');
+Object.keys(minimumWages).forEach(name=>{const option=document.createElement('option');option.value=name;option.textContent=name;prefectureSelect.appendChild(option);});
+const savedPrefecture=localStorage.getItem('salaryCalc_minimumWagePrefecture')||'';
+if(minimumWages[savedPrefecture])prefectureSelect.value=savedPrefecture;
+function updateMinimumWageLabels(){
+ const prefecture=prefectureSelect.value;
+ const minimum=minimumWages[prefecture];
+ const labels=['weekdayRateMinimum','weekdayNightRateMinimum','holidayRateMinimum','holidayNightRateMinimum'];
+ const expected=[minimum,minimum===undefined?undefined:Math.ceil(minimum*1.25),minimum,minimum===undefined?undefined:Math.ceil(minimum*1.25)];
+ labels.forEach((id,i)=>{
+  const input=$(rateIds[i]),label=$(id),value=Number(input.value);
+  label.textContent=minimum!==undefined&&input.value!==''&&Number.isFinite(value)&&value===expected[i]
+   ?prefecture+'の最低時給'+(i%2===1?'（深夜割増込み）':'')
+   :'';
+ });
+}
+prefectureSelect.addEventListener('change',()=>{localStorage.setItem('salaryCalc_minimumWagePrefecture',prefectureSelect.value);updateMinimumWageLabels();});
+function updateWarnings(){updateMinimumWageLabels();}
 function applyPreset(name){
  const presets={sushiro:[1200,1500,1250,1550],lawson:[1172,1172,1172,1172]};
  const values=presets[name];if(!values)return;
