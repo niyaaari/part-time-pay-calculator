@@ -57,6 +57,47 @@ footer{font-size:11px;padding:10px 3px}
 .nav-button,.key{transition:background-color .2s ease,color .2s ease,border-color .2s ease,transform .15s ease}
 @media(prefers-reduced-motion:reduce){.key,.nav-button{transition:none}}
 @media(max-width:390px){h1{font-size:26px}.card{padding:15px}.field input{font-size:16px}}
+
+/* ボタンのボーダーパルス */
+button{
+  --border:1;
+  --duration:.6;
+  --delay:.1;
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  transition-property:scale,translate,background-color,color,border-color,box-shadow;
+  transition-duration:.16s;
+  transition-timing-function:cubic-bezier(.25,.46,.45,.94);
+}
+button::before,
+button::after{
+  content:"";
+  position:absolute;
+  inset:calc(var(--border) * -1px);
+  border-radius:inherit;
+  opacity:0;
+  pointer-events:none;
+}
+button::before{
+  z-index:-1;
+  background:var(--accent);
+  transition:opacity .16s cubic-bezier(.55,.085,.68,.53);
+}
+button::after{
+  z-index:2;
+  border:calc(var(--border) * 1px) solid currentColor;
+  transition:opacity calc(var(--duration) * 1s) calc(var(--delay) * 1s) cubic-bezier(.25,.46,.45,.94);
+}
+button:is(:hover,:focus-visible)::before{opacity:.16}
+button:is(:hover,:focus-visible)::after{opacity:.48}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+button:active{scale:.98;translate:0 1px}
+button:active::before,button:active::after{opacity:1;transition:opacity 0s}
+@media(prefers-reduced-motion:reduce){
+  button{transition:none}
+  button::before,button::after{transition:none}
+}
 </style>
 </head>
 <body><main>
