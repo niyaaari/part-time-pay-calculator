@@ -312,7 +312,7 @@ function renderCalendar(){
  const monthDates=Object.keys(records).filter(d=>d.startsWith(monthPrefix));
  const total=monthDates.reduce((sum,d)=>sum+dayTotal(d),0);
  const totalMinutes=monthDates.reduce((sum,date)=>sum+dayRecords(date).reduce((daySum,r)=>{const parts=String(r.duration||'').match(/(\d+)時間(\d+)分/);return daySum+(parts?Number(parts[1])*60+Number(parts[2]):0);},0),0);
- $('monthTotal').textContent='合計給与：'+yen(total)+'　総労働時間：'+hm(totalMinutes);
+ $('monthTotal').textContent='合計給与：'+yen(total)+'\n総労働時間：'+hm(totalMinutes);
  renderSelectedRecords();
 }
 function renderSelectedRecords(){
