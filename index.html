@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f5f7fb">
+<meta name="theme-color" content="#E9E2D0">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="給料計算くん">
 <meta property="og:title" content="給料計算くん">
@@ -22,8 +22,8 @@
 @font-face{font-family:"GenEi M Gothic";src:url("fonts/GenEiMGothic2-Regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:"GenEi M Gothic";src:url("fonts/GenEiMGothic2-Medium.ttf") format("truetype");font-weight:500;font-style:normal;font-display:swap}
 @font-face{font-family:"GenEi M Gothic";src:url("fonts/GenEiMGothic2-Bold.ttf") format("truetype");font-weight:700;font-style:normal;font-display:swap}
-:root{color-scheme:light;--bg:#fff;--card:rgba(255,255,255,.66);--ink:#172033;--muted:#718096;--line:rgba(255,255,255,.72);--accent:#315ee8;--soft:rgba(237,242,255,.78);--input:rgba(255,255,255,.58);--rate:rgba(248,250,255,.52);--field:rgba(255,255,255,.72);--shadow:0 12px 30px rgba(40,62,100,.16);--glass-border:rgba(255,255,255,.78);--control-border:rgba(23,32,51,.18)}
-:root[data-theme="dark"]{color-scheme:dark;--bg:#171b25;--card:rgba(43,46,56,.76);--ink:#e7e9ee;--muted:#a5aab5;--line:rgba(255,255,255,.10);--accent:#91aaff;--soft:rgba(56,63,80,.78);--input:rgba(30,34,43,.58);--rate:rgba(48,52,59,.62);--field:rgba(52,56,64,.78);--shadow:0 14px 38px rgba(0,0,0,.22);--glass-border:rgba(255,255,255,.12);--control-border:rgba(255,255,255,.2)}
+:root{color-scheme:light;--bg:#E9E2D0;--card:rgba(255,255,255,.24);--ink:#6C4732;--muted:#806a5c;--line:rgba(108,71,50,.22);--accent:#6C4732;--soft:rgba(108,71,50,.10);--input:rgba(255,255,255,.58);--rate:rgba(255,255,255,.28);--field:rgba(255,255,255,.62);--shadow:none;--glass-border:rgba(108,71,50,.22);--control-border:rgba(108,71,50,.38);--deco:#6C4732}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#171b25;--card:rgba(43,46,56,.76);--ink:#e7e9ee;--muted:#a5aab5;--line:rgba(255,255,255,.10);--accent:#91aaff;--soft:rgba(56,63,80,.78);--input:rgba(30,34,43,.58);--rate:rgba(48,52,59,.62);--field:rgba(52,56,64,.78);--shadow:0 14px 38px rgba(0,0,0,.22);--glass-border:rgba(255,255,255,.12);--control-border:rgba(255,255,255,.2);--deco:#c5a58b}
 :root[data-theme="dark"] .error{color:#ff858c}
 /* テーマ切り替えをなめらかに */
 body,.card,.rate,.field input,.field select,.field select option,.choice span,.theme-toggle,.copy,footer,h1,h2,label,.sub,.hint,.eyebrow,.line,.summary,.totalbox small{transition:background-color .28s ease,color .28s ease,border-color .28s ease,box-shadow .28s ease}
@@ -38,6 +38,14 @@ main{max-width:600px;margin:auto}header{margin:0 0 22px}.topbar{display:flex;ali
 body{background:var(--bg)}
 :root[data-theme="dark"] body{background:var(--bg)}
 .card{background:var(--card);backdrop-filter:blur(16px) saturate(145%);-webkit-backdrop-filter:blur(16px) saturate(145%);border:1px solid var(--glass-border);box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.22)}
+    /* Art Deco I：各セクションの装飾フレーム */
+    .card{position:relative;isolation:isolate;border:0;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;transition:background-color .3s ease,transform .35s cubic-bezier(.2,.9,.4,1.1)}
+    .card::before,.card::after{content:"";position:absolute;pointer-events:none;z-index:0;transition:all .32s ease-out}
+    .card::before{top:-6px;bottom:-6px;left:0;right:0;border-left:2px solid var(--deco);border-right:2px solid var(--deco)}
+    .card::after{top:0;bottom:0;left:-6px;right:-6px;border-top:2px solid var(--deco);border-bottom:2px solid var(--deco)}
+    .card>*{position:relative;z-index:1}
+    @media(hover:hover) and (pointer:fine){.card:hover{background:rgba(108,71,50,.035);transform:scale(.995)}.card:hover::before{top:0;bottom:0}.card:hover::after{left:0;right:0}}
+    @media(prefers-reduced-motion:reduce){.card,.card::before,.card::after{transition:none}.card:hover{transform:none}}
 .rate,.record-item,.calculator-display{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .choices,.fields,.rates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.fields>.field{min-width:0}.choice{position:relative;cursor:pointer}.choice input{position:absolute;opacity:0}.choice span{display:block;text-align:center;padding:14px;border:1.5px solid var(--control-border);border-radius:11px;font-weight:700;transition:transform .16s cubic-bezier(.25,.46,.45,.94),box-shadow .16s ease,border-color .16s ease,background-color .16s ease,color .16s ease}.choice input:checked+span{border-color:var(--accent);background:var(--soft);color:var(--accent)}@media(hover:hover) and (pointer:fine){.choice:hover span{transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,.10)}}.choice input:focus-visible+span{outline:2px solid var(--accent);outline-offset:3px}@media(prefers-reduced-motion:reduce){.choice span{transition:none}.choice:hover span{transform:none}}
 label.field{display:block;color:var(--muted);font-size:13px;font-weight:650}.field input{display:block;width:100%;margin-top:7px;padding:12px;border:1px solid var(--control-border);border-radius:10px;background:var(--input);color:var(--ink);font:inherit;font-size:18px;min-width:0}.field input[type="time"]{display:block;box-sizing:border-box;width:100%;max-width:100%;min-width:0;min-inline-size:0;padding:9px 4px;font-size:14px;letter-spacing:-.3px}
