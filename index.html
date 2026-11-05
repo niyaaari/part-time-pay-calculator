@@ -79,7 +79,7 @@ footer{font-size:11px;padding:10px 3px}
 <label class="rate"><small>平日深夜（円/時）</small><input id="weekdayNightRate" type="number" min="0" step="1" value="1500" inputmode="numeric"><span class="minimum-wage-label" id="weekdayNightRateMinimum"></span></label>
 <label class="rate"><small>土日祝（円/時）</small><input id="holidayRate" type="number" min="0" step="1" value="1250" inputmode="numeric"><span class="minimum-wage-label" id="holidayRateMinimum"></span></label>
 <label class="rate"><small>土日祝深夜（円/時）</small><input id="holidayNightRate" type="number" min="0" step="1" value="1550" inputmode="numeric"><span class="minimum-wage-label" id="holidayNightRateMinimum"></span></label>
-</div><p class="hint">深夜時間帯：22:00〜翌5:00</p><label class="field" style="display:block;margin-top:14px">勤務地の都道府県<select id="minimumWagePrefecture"><option value="">都道府県を選択</option></select></label><p class="hint">入力した時給が地域別最低賃金と一致すると、該当する最低時給を表示します。</p></section>
+</div><p class="hint">深夜時間帯：22:00〜翌5:00</p><p class="hint">入力した時給がいずれかの都道府県の最低賃金と一致すると、該当する県名を表示します。</p></section>
 <button class="calc" id="calculate" type="button">給与を計算する</button><div class="error" id="error" role="alert"></div>
 <section class="card result" id="result" aria-live="polite"><h2>計算結果</h2>
 <div class="totalbox"><small>今回の予想給与</small><div class="total" id="total">0円</div><div class="summary" id="duration"></div></div>
@@ -128,23 +128,17 @@ const minimumWages={
 "徳島県":1103,"香川県":1092,"愛媛県":1093,"高知県":1086,
 "福岡県":1114,"佐賀県":1030,"長崎県":1087,"熊本県":1034,"大分県":1096,"宮崎県":1085,"鹿児島県":1090,"沖縄県":1023
 };
-const prefectureSelect=$('minimumWagePrefecture');
-Object.keys(minimumWages).forEach(name=>{const option=document.createElement('option');option.value=name;option.textContent=name;prefectureSelect.appendChild(option);});
-const savedPrefecture=localStorage.getItem('salaryCalc_minimumWagePrefecture')||'';
-if(minimumWages[savedPrefecture])prefectureSelect.value=savedPrefecture;
 function updateMinimumWageLabels(){
- const prefecture=prefectureSelect.value;
- const minimum=minimumWages[prefecture];
  const labels=['weekdayRateMinimum','weekdayNightRateMinimum','holidayRateMinimum','holidayNightRateMinimum'];
- const expected=[minimum,minimum===undefined?undefined:Math.ceil(minimum*1.25),minimum,minimum===undefined?undefined:Math.ceil(minimum*1.25)];
+ const baseRates=Object.entries(minimumWages);
+ const nightRates=baseRates.map(([name,wage])=>[name,Math.ceil(wage*1.25)]);
+ const options=[baseRates,nightRates,baseRates,nightRates];
  labels.forEach((id,i)=>{
   const input=$(rateIds[i]),label=$(id),value=Number(input.value);
-  label.textContent=minimum!==undefined&&input.value!==''&&Number.isFinite(value)&&value===expected[i]
-   ?prefecture+'の最低時給'+(i%2===1?'（深夜割増込み）':'')
-   :'';
+  const matches=input.value!==''&&Number.isFinite(value)?options[i].filter(([,wage])=>wage===value).map(([name])=>name):[];
+  label.textContent=matches.length?matches.map(name=>name+'の最低賃金').join('・'):'';
  });
 }
-prefectureSelect.addEventListener('change',()=>{localStorage.setItem('salaryCalc_minimumWagePrefecture',prefectureSelect.value);updateMinimumWageLabels();});
 function updateWarnings(){updateMinimumWageLabels();}
 function applyPreset(name){
  const presets={sushiro:[1200,1500,1250,1550],lawson:[1172,1172,1172,1172]};
