@@ -293,7 +293,7 @@ function updateMinimumWageLabels(){
  labels.forEach((id,i)=>{
   const input=$(rateIds[i]),label=$(id),value=Number(input.value);
   const matches=input.value!==''&&Number.isFinite(value)?options[i].filter(([,wage])=>wage===value).map(([name])=>name):[];
-  label.textContent=matches.length?matches.map(name=>name+'の最低賃金').join('・'):'';
+  label.textContent=matches.length?matches.join('・')+'の最低賃金':'';
  });
 }
 function updateWarnings(){updateMinimumWageLabels();}
