@@ -427,7 +427,7 @@ $('exportRecords').addEventListener('click',()=>{
  const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});
  const url=URL.createObjectURL(blob),link=document.createElement('a');
  link.href=url;link.download='kyuyo-calendar-backup-'+todayLocal()+'.json';
- document.body.appendChild(link);link.click();link.remove();URL.revokeObjectURL(url);
+ document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
  $('exportRecords').textContent='保存しました！';
  setTimeout(()=>$('exportRecords').textContent='データをエクスポート',1800);
 });
