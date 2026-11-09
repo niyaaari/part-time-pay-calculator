@@ -183,6 +183,18 @@ button:active::before,button:active::after{opacity:1;transition:opacity 0s}
   .choice input:not(:checked)+span{background-color:var(--card)}
 }
 
+/* スイッチが勤務区分ボタン用 .choice の装飾を受けないように分離 */
+.choice.switch{display:inline-flex;align-items:center;gap:10px;text-align:left;padding:0;border:0;border-radius:0;background:transparent;font-weight:400}
+.choice.switch .track{display:block;position:relative;flex:none;width:36px;height:20px;padding:0;border:0;border-radius:9999px;text-align:left;transform:none;box-shadow:none;background:var(--off)}
+.choice.switch .thumb{display:block;position:absolute;top:3px;left:3px;width:14px;height:14px;padding:0;border:0;border-radius:50%;background:var(--thumb)}
+.choice.switch input:checked+.track{background:var(--on);border:0;color:inherit}
+.choice.switch input:not(:checked)+.track{background:var(--off);border:0}
+.choice.switch input:checked+.track .thumb{transform:translateX(16px)}
+.choice.switch .switch-label{display:block;padding:0;border:0;border-radius:0;background:transparent;color:inherit;text-align:left;font-size:inherit;font-weight:inherit;line-height:1.6}
+.choice.switch:hover .track,.choice.switch:hover .switch-label{transform:none;box-shadow:none}
+.choice.switch input:focus-visible+.track{outline:2px solid var(--primary);outline-offset:2px}
+@media(max-width:700px){.choice.switch input:not(:checked)+.track{background:var(--off)!important}}
+
 /* 共通コンパクトトグルスイッチ */
 .switch{--primary:var(--accent);--secondary:var(--ink, var(--text));--surface:var(--bg);--on:var(--secondary);--off:color-mix(in srgb,var(--secondary) 22%,var(--surface));--thumb:var(--surface);position:relative;display:inline-flex;align-items:center;gap:10px;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .switch input{position:absolute;opacity:0;width:0;height:0}
